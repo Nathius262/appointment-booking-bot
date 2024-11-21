@@ -19,7 +19,7 @@ A Python-based bot to automate the process of checking appointment availability 
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/appointment-booking-bot.git
+   git clone https://github.com/Nathius262/appointment-booking-bot.git
    cd appointment-booking-bot
 
 2. Install dependencies:
