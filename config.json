@@ -5,9 +5,14 @@
         "lastname": "Doe",
         "firstname": "John",
         "email": "john.doe@example.com",
-        "locationCode": "kara"
+        "locationCode": "kara",
+        "passport": "A12345678"
     },
     "urls": [
+        {
+            "category":"General",
+            "url": "https://service2.diplo.de/rktermin/extern/appointment_showDay.do?locationCode=doha&realmId=495&categoryId=790&dateStr=30.12.2024"
+        },
         {
             "category": "Master",
             "url": "https://service2.diplo.de/rktermin/extern/appointment_showMonth.do?locationCode=kara&realmId=967&categoryId=2801&dateStr=17.01.2025"
