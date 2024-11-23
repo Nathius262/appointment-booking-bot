@@ -1,0 +1,20 @@
+{
+    "browser": "chrome",
+    "captcha_solver_url": "http://localhost:8888/api_base64",
+    "form_data": {
+        "lastname": "Doe",
+        "firstname": "John",
+        "email": "john.doe@example.com",
+        "locationCode": "kara"
+    },
+    "urls": [
+        {
+            "category": "Master",
+            "url": "https://service2.diplo.de/rktermin/extern/appointment_showMonth.do?locationCode=kara&realmId=967&categoryId=2801&dateStr=17.01.2025"
+        },
+        {
+            "category": "Visit",
+            "url": "https://service2.diplo.de/rktermin/extern/appointment_showDay.do?locationCode=kara&realmId=967&categoryId=2801&dateStr=18.12.2024"
+        }
+    ]
+}
