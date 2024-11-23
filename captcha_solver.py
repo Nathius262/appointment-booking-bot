@@ -1,24 +1,38 @@
 import requests
+from selenium.webdriver.common.by import By
+import re
 
-def solve_captcha(driver, captcha_solver_url):
-    """Solve CAPTCHA using an external API."""
-    captcha_element = driver.find_element_by_css_selector("captcha div")
-    captcha_style = captcha_element.get_attribute("style")
- 
-    # Extract the CAPTCHA background image URL
-    url_match = captcha_style.match(r"url\(['\"]?([^'\"]+)['\"]?\)")
-    if not url_match:
-        print("Failed to extract CAPTCHA image URL.")
-        return None
+def solve_captcha(driver, captcha_solver_url, retries=3):
+    """Solve CAPTCHA using an external API with retry logic."""
+    for attempt in range(retries):
+        try:
+            captcha_element = driver.find_element(By.CSS_SELECTOR, "captcha div")
+            if not captcha_element:
+                print("CAPTCHA element not found.")
+                return None
 
-    bg_image_url = url_match.group(1)
+            captcha_style = captcha_element.get_attribute("style")
+            #print(f"CAPTCHA style: {captcha_style}")
 
-    # Send the CAPTCHA image URL to the solver
-    payload = {"data": bg_image_url}
-    try:
-        response = requests.post(captcha_solver_url, json=payload)
-        response_data = response.json()
-        return response_data.get("captcha")  # Assuming the API returns `captcha`
-    except Exception as e:
-        print(f"Error solving CAPTCHA: {e}")
-        return None
+            url_match = re.search(r"url\(['\"]?([^'\"]+)['\"]?\)", captcha_style)
+            if not url_match:
+                print("Failed to extract CAPTCHA image URL.")
+                return None
+
+            bg_image_url = url_match.group(1)
+            #print(f"Extracted CAPTCHA URL: {bg_image_url}")
+
+            payload = {"data": bg_image_url}
+            response = requests.post(captcha_solver_url, json=payload)
+            response_data = response.json()
+
+            if "captcha" in response_data:
+                print(f"CAPTCHA solved: {response_data['captcha']}")
+                return response_data["captcha"]
+            else:
+                print(f"Unexpected response structure: {response_data}")
+        except Exception as e:
+            print(f"Error solving CAPTCHA on attempt {attempt + 1}: {e}")
+
+    print("Failed to solve CAPTCHA after retries.")
+    return None
